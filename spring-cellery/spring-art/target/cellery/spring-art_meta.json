@@ -1,0 +1,1 @@
+{"components":{"article":{"replicas":1, "name":"article", "source":{"image":"athukorala/spring-art"}, "ingresses":{"orders":{"authenticate":true, "port":8080, "context":"controller", "expose":"local", "definition":{"resources":[{"path":"/*", "method":"GET"}]}}}}}}

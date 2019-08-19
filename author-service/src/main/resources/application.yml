@@ -1,0 +1,12 @@
+# Server config
+server:
+  port: ${PORT:8081}
+
+# Spring config
+spring:
+  application:
+    name: author-service
+  logging:
+    level:
+      org.springframework: WARN
+      org.hibernate: WARN

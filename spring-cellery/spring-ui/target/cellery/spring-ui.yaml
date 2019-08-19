@@ -1,0 +1,64 @@
+---
+apiVersion: "mesh.cellery.io/v1alpha1"
+kind: "Cell"
+metadata:
+  annotations:
+    mesh.cellery.io/cell-image-org: "athukorala"
+    mesh.cellery.io/cell-image-name: "spring-ui"
+    mesh.cellery.io/cell-image-version: "latest"
+    mesh.cellery.io/cell-dependencies: "[{\"org\":\"athukorala\",\"name\":\"spring-art\"\
+      ,\"version\":\"latest\",\"alias\":\"article\"},{\"org\":\"athukorala\",\"name\"\
+      :\"spring-auth\",\"version\":\"latest\",\"alias\":\"author\"}]"
+  labels: {}
+  name: "spring-ui"
+spec:
+  gatewayTemplate:
+    spec:
+      type: "Envoy"
+      host: "cellery-demo.com"
+      tlsSecret: null
+      oidc:
+        providerUrl: ""
+        clientId: ""
+        clientSecret: null
+        redirectUrl: "http://cellery-demo.com/_auth/callback"
+        baseUrl: "http://cellery-demo.com/"
+        subjectClaim: "given_name"
+        nonSecurePaths:
+        - "/app/*"
+        - "/"
+        securePaths: []
+        dcrUrl: null
+        dcrUser: ""
+        dcrPassword: ""
+      http:
+      - definitions: null
+        context: "/"
+        backend: "ui"
+        global: true
+        authenticate: false
+      tcp: []
+      grpc: []
+  servicesTemplates:
+  - metadata:
+      annotations: {}
+      labels: {}
+      name: "ui"
+    spec:
+      replicas: 1
+      servicePort: 80
+      container:
+        env:
+        - name: "ARTICLE_URL"
+          value: "http://{{article}}--gateway-service:80/controller"
+        - name: "AUTHOR_URL"
+          value: "http://{{author}}--gateway-service:80/controller"
+        image: "athukorala/spring-ui"
+        ports:
+        - containerPort: 8098
+      autoscaling: null
+      protocol: null
+      type: null
+  stsTemplate:
+    spec:
+      unsecuredPaths: []

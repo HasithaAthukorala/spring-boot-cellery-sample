@@ -1,0 +1,46 @@
+---
+apiVersion: "mesh.cellery.io/v1alpha1"
+kind: "Cell"
+metadata:
+  annotations:
+    mesh.cellery.io/cell-image-org: "athukorala"
+    mesh.cellery.io/cell-image-name: "spring-art"
+    mesh.cellery.io/cell-image-version: "latest"
+    mesh.cellery.io/cell-dependencies: "[]"
+  labels: {}
+  name: "spring-art"
+spec:
+  gatewayTemplate:
+    spec:
+      type: "MicroGateway"
+      host: null
+      tlsSecret: null
+      oidc: null
+      http:
+      - definitions:
+        - path: "/*"
+          method: "GET"
+        context: "controller"
+        backend: "article"
+        global: false
+        authenticate: true
+      tcp: []
+      grpc: []
+  servicesTemplates:
+  - metadata:
+      annotations: {}
+      labels: {}
+      name: "article"
+    spec:
+      replicas: 1
+      servicePort: 80
+      container:
+        image: "athukorala/spring-art"
+        ports:
+        - containerPort: 8080
+      autoscaling: null
+      protocol: null
+      type: null
+  stsTemplate:
+    spec:
+      unsecuredPaths: []

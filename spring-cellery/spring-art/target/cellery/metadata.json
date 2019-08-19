@@ -1,0 +1,1 @@
+{"org":"athukorala","name":"spring-art","ver":"latest","labels":{},"dockerImages":[],"buildTimestamp":1566207139,"buildCelleryVersion":"0.4.0-SNAPSHOT","ingresses":["TCP","HTTP","GRPC"],"components":["article"],"dependencies":{},"componentDep":{},"exposed":["article"],"zeroScaling":false,"autoScaling":false}
